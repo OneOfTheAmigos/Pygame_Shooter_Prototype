@@ -240,11 +240,10 @@ def UpdatedTime(time):
 
     
 #Loading in the images
-#Spaceship_image = pygame.image.load(r"C:\Users\ecotr\Desktop\BulletHellAssets\pixilart-drawing (1).png")
-Spaceship_image = Image.open('pixilart-drawing (1).png')
-Enemy_image = pygame.image.load(r"C:\Users\ecotr\Desktop\BulletHellAssets\froggyboss.png")
-Enemy_image2 = pygame.image.load(r"C:\Users\ecotr\Desktop\BulletHellAssets\froggyboss2.png")
-Heart_image = pygame.image.load(r"C:\Users\ecotr\Desktop\BulletHellAssets\rainbowheart.png")
+Spaceship_image = pygame.image.load("../BulletHellAssets/pixilart-drawing (1).png")
+Enemy_image = pygame.image.load(r"../BulletHellAssets/froggyboss.png")
+Enemy_image2 = pygame.image.load(r"../BulletHellAssets/froggyboss2.png")
+Heart_image = pygame.image.load(r"../BulletHellAssets/rainbowheart.png")
 
 
 
