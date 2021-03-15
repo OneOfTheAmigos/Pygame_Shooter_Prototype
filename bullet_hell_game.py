@@ -384,18 +384,18 @@ def UpdatedTime(time):
 
   
 #Loading in the images and sounds
-Spaceship_image = pygame.image.load("../BulletHellAssets/pixilart-drawing (1).png")
-Enemy_image = pygame.image.load(r"../BulletHellAssets/froggyboss.png")
-Enemy_image2 = pygame.image.load(r"../BulletHellAssets/froggyboss2.png")
-Heart_image = pygame.image.load(r"../BulletHellAssets/rainbowheart.png")
+Spaceship_image = pygame.image.load("./BulletHellAssets/pixilart-drawing (1).png")
+Enemy_image = pygame.image.load(r"./BulletHellAssets/froggyboss.png")
+Enemy_image2 = pygame.image.load(r"./BulletHellAssets/froggyboss2.png")
+Heart_image = pygame.image.load(r"./BulletHellAssets/rainbowheart.png")
 pygame.mixer.init(44100, -16, 2, 2048)
-Song = pygame.mixer.music.load("../BulletHellSounds/vvvvvvv.version2.wav")
-warningsound = pygame.mixer.Sound("../BulletHellSounds/warningsound.wav")
-lasersound = pygame.mixer.Sound("../BulletHellSounds/lasernoise.wav")
-gettinghitsound = pygame.mixer.Sound("../BulletHellSounds/gettinghitnoise.wav")
-shootingsound = pygame.mixer.Sound("../BulletHellSounds/shootingnoise.wav")
-hittingthewallsound = pygame.mixer.Sound("../BulletHellSounds/squarehittingwall.wav")
-megalasersound = pygame.mixer.Sound("../BulletHellSounds/megalaser.wav")
+Song = pygame.mixer.music.load("./BulletHellSounds/vvvvvvv.version2.wav")
+warningsound = pygame.mixer.Sound("./BulletHellSounds/warningsound.wav")
+lasersound = pygame.mixer.Sound("./BulletHellSounds/lasernoise.wav")
+gettinghitsound = pygame.mixer.Sound("./BulletHellSounds/gettinghitnoise.wav")
+shootingsound = pygame.mixer.Sound("./BulletHellSounds/shootingnoise.wav")
+hittingthewallsound = pygame.mixer.Sound("./BulletHellSounds/squarehittingwall.wav")
+megalasersound = pygame.mixer.Sound("./BulletHellSounds/megalaser.wav")
 pygame.mixer.music.play(-1) 
 
 def PlayWarningSound():
