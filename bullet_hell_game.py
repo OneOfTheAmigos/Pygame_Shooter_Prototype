@@ -22,7 +22,7 @@ class Enemy:
         self.health = health
         self.x = x
         self.y = y
-        self. length = length
+        self.length = length
         self.height = height
         self.activeimage = imported_image 
         self.image = pygame.transform.rotate(pygame.transform.scale(self.activeimage, (self.length, self.height)), 0)
@@ -65,11 +65,11 @@ class Enemy:
 
      
 class Shield:
-    def __init__(self, x, y):
+    def __init__(self, x, y, length):
         self.x = x
         self.initialx = x
         self.y = y
-        self.length = 35
+        self.length = length
         self.height = 3
         self.movevalue = 0
         self.velocity = .5
@@ -123,6 +123,7 @@ class Ball(Projectile):
         if self.x + self.width > WindowLength or self.x < 0:
             newxvelocity = self.xvelocity * -1
             self.xvelocity = newxvelocity
+            pygame.mixer.Sound.play(hittingthewallsound)
         self.x += self.xvelocity
         self.y += self.yvelocity
         self.image = pygame.Rect(self.x, self.y, self.width, self.height)
@@ -170,6 +171,7 @@ class Sweep(Laser):
             self.IsActive = False
         elif self.IsActive == False:
             self.IsActive = True
+            pygame.mixer.Sound.play(lasersound)
         
 
 class Bar(Laser):
@@ -202,7 +204,6 @@ class Bullet:
     def Move(self):
         self.y -= self.velocity
         self.image = pygame.Rect(self.x, self.y, self.width, self.height)
-
 
 
 class HealthBar:
@@ -279,11 +280,12 @@ class Spaceship:
         if self.IsInvincible == False:
             self.hitpoints -= 1
             self.IsInvincible = True
+            pygame.mixer.Sound.play(gettinghitsound)
 
     def Die(self):
         GameOverLose()
 
-
+#---------------------------------------------------------------------
 #ATTACKS
 
 def Attack_0():
@@ -322,6 +324,7 @@ def Attack_2():
     sweepinglaser = Sweep(0, 75, 25, WindowHeight - 145, White)
     laser_list.append(sweepinglaser)
     sweep_list.append(sweepinglaser)
+    pygame.mixer.Sound.play(lasersound) 
     
 
 def Attack_3():
@@ -329,10 +332,12 @@ def Attack_3():
     barlaser2 = Bar(random.randint(0, 450), WindowHeight - 90, 50, 400, White)
     laser_list.append(barlaser1)
     laser_list.append(barlaser2)
+    pygame.mixer.Sound.play(megalasersound)
 
 def Attack_4():
     pass
 
+#-------------------------------------------------------------------------------------
 
 
 #better way to draw stuff [make sure every object in object_list has an image, x, and y, property, or else this goes to shit]
@@ -341,18 +346,12 @@ def Drawing_Function(object_list, timetextsurface):
     for ii in object_list:
         Window.blit(ii.image, (ii.x, ii.y))
     Window.blit(timetextsurface, (100, 450))
-    
-    pygame.display.update()
 
 def Drawing_Enemy(enemy): 
-    
     Window.blit(enemy.image, (enemy.x, enemy.y))
-    
-    pygame.display.update()
 
 def Drawing_Player(player):
     Window.blit(player.image, (player.x, player.y))
-    pygame.display.update()
 
 def Drawing_Rectangles(shape_list, bullet_list, shield_list):
     for ii in shape_list:
@@ -361,20 +360,17 @@ def Drawing_Rectangles(shape_list, bullet_list, shield_list):
         pygame.draw.rect(Window, ii.color, ii.image)
     for ii in shield_list:
         pygame.draw.rect(Window, ii.color, ii.image)
-    pygame.display.update()
     
-
 def Drawing_Projectiles(projectile_list):
     for ii in projectile_list:
         pygame.draw.rect(Window, ii.color, ii.image)
-    pygame.display.update()
 
 def Drawing_Lasers(laser_list):
     for ii in laser_list:
         pygame.draw.rect(Window, ii.color, ii.image)
-    pygame.display.update()
     
-
+def Update_Display():
+    pygame.display.update()
 
 def Reset_Screen():
     Window.fill(Black)
@@ -388,13 +384,18 @@ def UpdatedTime(time):
 
   
 #Loading in the images and sounds
-Spaceship_image = pygame.image.load("./BulletHellAssets/pixilart-drawing (1).png")
-Enemy_image = pygame.image.load(r"./BulletHellAssets/froggyboss.png")
-Enemy_image2 = pygame.image.load(r"./BulletHellAssets/froggyboss2.png")
-Heart_image = pygame.image.load(r"./BulletHellAssets/rainbowheart.png")
+Spaceship_image = pygame.image.load("../BulletHellAssets/pixilart-drawing (1).png")
+Enemy_image = pygame.image.load(r"../BulletHellAssets/froggyboss.png")
+Enemy_image2 = pygame.image.load(r"../BulletHellAssets/froggyboss2.png")
+Heart_image = pygame.image.load(r"../BulletHellAssets/rainbowheart.png")
 pygame.mixer.init(44100, -16, 2, 2048)
-Song = pygame.mixer.music.load("./BulletHellSounds/vvvvvvv.version2.wav")
-warningsound = pygame.mixer.Sound("./BulletHellSounds/warningsound.wav")
+Song = pygame.mixer.music.load("../BulletHellSounds/vvvvvvv.version2.wav")
+warningsound = pygame.mixer.Sound("../BulletHellSounds/warningsound.wav")
+lasersound = pygame.mixer.Sound("../BulletHellSounds/lasernoise.wav")
+gettinghitsound = pygame.mixer.Sound("../BulletHellSounds/gettinghitnoise.wav")
+shootingsound = pygame.mixer.Sound("../BulletHellSounds/shootingnoise.wav")
+hittingthewallsound = pygame.mixer.Sound("../BulletHellSounds/squarehittingwall.wav")
+megalasersound = pygame.mixer.Sound("../BulletHellSounds/megalaser.wav")
 pygame.mixer.music.play(-1) 
 
 def PlayWarningSound():
@@ -422,10 +423,10 @@ def main():
     Heart2 = Heart(350, WindowHeight - 50, 25, 25, Heart_image, 2)
     Heart3 = Heart(400, WindowHeight - 50, 25, 25, Heart_image, 3)
     
-    number_of_shields = 7
+    number_of_shields = 10
     length_between_shields = 10
     for ii in range(number_of_shields):
-        shield = Shield((ii * (WindowLength // number_of_shields)) + (ii * length_between_shields), 75)
+        shield = Shield((ii * (WindowLength // number_of_shields)) + (ii * length_between_shields), 75, (WindowLength // number_of_shields) - length_between_shields)
         shield_list.append(shield)
 
 
@@ -479,6 +480,7 @@ def main():
                 if event.key == pygame.K_SPACE:
                     bullet = Bullet(Player.x + Player.length//2, Player.y)
                     bullet_list.append(bullet)
+                    #pygame.mixer.Sound.play(shootingsound)
                     
 
         #everything here happens every time loop
@@ -573,6 +575,7 @@ def main():
                 if ii.attacktimepassed == 180:
                     laser_list.remove(ii)
                     
+                    
 
         
         #Handles invincibility
@@ -594,16 +597,16 @@ def main():
         
         #Starts an attack
         if MainEnemy.IsAtttacking == False:
-            MainEnemy.IsAtttacking = True
+            MainEnemy.IsAtttacking = True  
             MainEnemy.Attack()
         '''
         Attackcounter += 1
         if Attackcounter == 120:
-            PlayWarningSound()
+            PlayWarningSound() 
         if Attackcounter == 180:
             MainEnemy.Attack()
             Attackcounter = 0
-
+     
 
         #Graphics
         Reset_Screen()
@@ -613,6 +616,7 @@ def main():
         Drawing_Lasers(laser_list)
         Drawing_Function(object_list, UpdatedTime(TimePassed))
         Drawing_Enemy(MainEnemy)
+        Update_Display() 
         
         
 
